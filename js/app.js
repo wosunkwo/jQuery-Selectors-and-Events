@@ -13,7 +13,7 @@ function PhotoGallery(image_url, title, description,keyword,horns){
 }
 
 
-$.get('../data/page-1.json', data =>{
+$.get('data/page-1.json', data =>{
   data.forEach(element => (
     new PhotoGallery(element.image_url, element.title, element.description, element.keyword, element.horns)));
 
