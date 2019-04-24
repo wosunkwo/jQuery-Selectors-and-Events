@@ -19,8 +19,8 @@ $.get('../data/page-1.json', data =>{
   let section = $('#photo-template');
 
   for(let i=0; i<allPhotoGallery.length; i++){
-    section.append(`<h2> ${allPhotoGallery[i].title}</h2>`);
     section.append(`<img src="${allPhotoGallery[i].image_url}" alt = "${allPhotoGallery[i].keyword}">`);
+    section.append(`<h2> ${allPhotoGallery[i].title}</h2>`);
     /* section.append(`<p> ${allPhotoGallery[i].description}</p>`);*/
   }
   /*
