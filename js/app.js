@@ -23,26 +23,21 @@ $.get('../data/page-1.json', data =>{
   for(let i=0; i<allPhotoGallery.length; i++){
     if(!keywordVal.includes(allPhotoGallery[i].keyword)){
       keywordVal.push(allPhotoGallery[i].keyword);
-      console.log(allPhotoGallery[i].keyword);
       select.append(`<option>${allPhotoGallery[i].keyword}</option>`);
     }
-   // select.append(`<option>${allPhotoGallery[i].keyword}</option>`);
   }
 
   for(let i=0; i<allPhotoGallery.length; i++){
-    section.append(`<img src="${allPhotoGallery[i].image_url}" alt = "${allPhotoGallery[i].keyword}">`);
-    section.append(`<h2> ${allPhotoGallery[i].title}</h2>`);
+    section.append(`<img src="${allPhotoGallery[i].image_url}" alt = "${allPhotoGallery[i].keyword}" class= "animal${i}">`);
   }
 
   $('select').on('change', function(){
     $('section').empty();
     for(let i=0; i<allPhotoGallery.length; i++){
       if(allPhotoGallery[i].keyword === $(this).val()){
-        section.append(`<img src="${allPhotoGallery[i].image_url}" alt = "${allPhotoGallery[i].keyword}">`);
-        section.append(`<h2> ${allPhotoGallery[i].title}</h2>`);
+        section.append(`<img src="${allPhotoGallery[i].image_url}" alt = "${allPhotoGallery[i].keyword}" class= "animal${i}">`);
       }
     }
     console.log($(this).val());
   });
 });
-
