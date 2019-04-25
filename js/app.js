@@ -19,7 +19,6 @@ function page1(){
   $('#datajson').empty();
   $('select').empty();
   keywordVal = [];
-  
   $.get('data/page-1.json', data =>{
     data.forEach((element, index )=> {
       new PhotoGallery(element.image_url, element.title, element.description, element.keyword, element.horns);
@@ -34,12 +33,9 @@ function page1(){
       }
     }
 
-    $('#sorttitle').on('change', function(e) {
-      console.log(e.target);
-      console.log(allPhotoGallery);
+    $('#sorttitle').on('change', function() {
       allPhotoGallery.sort((a, b) => {
         if(a.title < b.title){
-          console.log(a < b);
           return -1;
         } else if (a.title > b.title){
           return 1;
@@ -61,8 +57,34 @@ function page1(){
         }
       });
     });
-    console.log(allPhotoGallery);
-    return allPhotoGallery;
+
+    $('#sorthorns').on('change', function() {
+      allPhotoGallery.sort((a, b) => {
+        if(a.horns < b.horns){
+          console.log(a < b);
+          return -1;
+        } else if (a.horns > b.horns){
+          return 1;
+        } else{
+          return 0;
+        }
+      });
+      $('#datajson').empty();
+      for(let i=0; i<allPhotoGallery.length; i++){
+        $('#datajson').append(template(allPhotoGallery[i]));
+      }
+
+      $('select').on('change', function(){
+        $('#datajson').empty();
+        for(let i=0; i<allPhotoGallery.length; i++){
+          if(allPhotoGallery[i].keyword === $(this).val()){
+            $('#datajson').append(template(allPhotoGallery[i]));
+          }
+        }
+      });
+    });
+  
+   // return allPhotoGallery;
   });
 }
 
@@ -86,7 +108,32 @@ function page2(){
       }
     }
 
-    $('#sorthorns').on('change', function(e) {
+    $('#sorttitle').on('change', function() {
+      allPhotoGallery.sort((a, b) => {
+        if(a.title < b.title){
+          return -1;
+        } else if (a.title > b.title){
+          return 1;
+        } else{
+          return 0;
+        }
+      });
+      $('#datajson').empty();
+      for(let i=0; i<allPhotoGallery.length; i++){
+        $('#datajson').append(template(allPhotoGallery[i]));
+      }
+   
+      $('select').on('change', function(){
+        $('#datajson').empty();
+        for(let i=0; i<allPhotoGallery.length; i++){
+          if(allPhotoGallery[i].keyword === $(this).val()){
+            $('#datajson').append(template(allPhotoGallery[i]));
+          }
+        }
+      });
+    });
+
+    $('#sorthorns').on('change', function() {
       allPhotoGallery.sort((a, b) => {
         if(a.horns < b.horns){
           console.log(a < b);
@@ -113,16 +160,6 @@ function page2(){
     });
   });
 }
-// const sortHorns = (allPhotoGallery) => {
-//   allPhotoGallery.sort((a,b) => {a.horns-b.horns});
-//   return arr;
-// };
-
-// const sortTitle = (allPhotoGallery) => {
-//   allPhotoGallery.sort((a,b) => {a.title-b.title});
-//   return arr;
-// };
-
 
 page1();
 $('#page1').on('click', page1);
