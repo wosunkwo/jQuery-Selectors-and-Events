@@ -25,6 +25,7 @@ function page1(){
       new PhotoGallery(element.image_url, element.title, element.description, element.keyword, element.horns);
       $('#datajson').append(template(allPhotoGallery[index]));
     });
+
     let select = $('select');
     for(let i=0; i<allPhotoGallery.length; i++){
       if(!keywordVal.includes(allPhotoGallery[i].keyword)){
@@ -32,6 +33,7 @@ function page1(){
         select.append(`<option>${allPhotoGallery[i].keyword}</option>`);
       }
     }
+
     $('select').on('change', function(){
       $('#datajson').empty();
       for(let i=0; i<allPhotoGallery.length; i++){
