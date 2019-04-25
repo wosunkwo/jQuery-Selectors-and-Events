@@ -1,9 +1,10 @@
 'use strict';
-const allPhotoGallery = [];
+var allPhotoGallery = [];
 var keywordVal = [];
 var source   = document.getElementById('entry-template').innerHTML;
 var template = Handlebars.compile(source);
 console.log(template);
+
 function PhotoGallery(image_url, title, description,keyword,horns){
   this.image_url = image_url;
   this.title = title;
@@ -13,37 +14,65 @@ function PhotoGallery(image_url, title, description,keyword,horns){
   allPhotoGallery.push(this);
 }
 
-
-$.get('data/page-1.json', data =>{
-  data.forEach((element, index )=> {
-    new PhotoGallery(element.image_url, element.title, element.description, element.keyword, element.horns);
-    $('#datajson').append(template(allPhotoGallery[index]));
-  });
-  // let section = $('#photo-template');
-  // let select = $('select');
-
-  for(let i=0; i<allPhotoGallery.length; i++){
-    if(!keywordVal.includes(allPhotoGallery[i].keyword)){
-      keywordVal.push(allPhotoGallery[i].keyword);
-      // template(select.append(`<option>${allPhotoGallery[i]}</option>`));
+function page1(){
+  allPhotoGallery = [];
+  $('#datajson').empty();
+  $('select').empty();
+  keywordVal = [];
+  
+  $.get('data/page-1.json', data =>{
+    data.forEach((element, index )=> {
+      new PhotoGallery(element.image_url, element.title, element.description, element.keyword, element.horns);
+      $('#datajson').append(template(allPhotoGallery[index]));
+    });
+    let select = $('select');
+    for(let i=0; i<allPhotoGallery.length; i++){
+      if(!keywordVal.includes(allPhotoGallery[i].keyword)){
+        keywordVal.push(allPhotoGallery[i].keyword);
+        select.append(`<option>${allPhotoGallery[i].keyword}</option>`);
+      }
     }
-  }
+    $('select').on('change', function(){
+      $('#datajson').empty();
+      for(let i=0; i<allPhotoGallery.length; i++){
+        if(allPhotoGallery[i].keyword === $(this).val()){
+          $('#datajson').append(template(allPhotoGallery[i]));
+        }
+      }
+    });
+  });
+}
 
-  // for(let i=0; i<allPhotoGallery.length; i++){
+function page2(){
+  allPhotoGallery = [];
+  $('#datajson').empty();
+  $('select').empty();
+  keywordVal = [];
 
-  //   template(section.append(`<img src="${allPhotoGallery[i].image_url}" alt = "${allPhotoGallery[i].keyword}" class= "animal${i}">`));
-  //   console.log('TEST' +template.data);
-  // }
+  $.get('data/page-2.json', data =>{
+    data.forEach((element, index )=> {
+      new PhotoGallery(element.image_url, element.title, element.description, element.keyword, element.horns);
+      $('#datajson').append(template(allPhotoGallery[index]));
+    });
+    let select = $('select');
+    for(let i=0; i<allPhotoGallery.length; i++){
+      if(!keywordVal.includes(allPhotoGallery[i].keyword)){
+        keywordVal.push(allPhotoGallery[i].keyword);
+        select.append(`<option>${allPhotoGallery[i].keyword}</option>`);
+      }
+    }
+    $('select').on('change', function(){
+      $('#datajson').empty();
+      for(let i=0; i<allPhotoGallery.length; i++){
+        if(allPhotoGallery[i].keyword === $(this).val()){
+          $('#datajson').append(template(allPhotoGallery[i]));
+        }
+      }
+    });
+  });
+}
 
-  // $('select').on('change', function(){
-  //   $('section').empty();
-  //   for(let i=0; i<allPhotoGallery.length; i++){
-  //     if(allPhotoGallery[i].keyword === $(this).val()){
-  //       template(section.append(`<img src="${allPhotoGallery[i].image_url}" alt = "${allPhotoGallery[i].keyword}" class= "animal${i}">`));
-  //     }
-  //   }
-  //   console.log($(this).val());
-  // });
-});
+page1();
+$('#page1').on('click', page1);
 
-// fjdjkfljakfjdlsjla
+$('#page2').on('click', page2);
