@@ -1,6 +1,9 @@
 'use strict';
 var allPhotoGallery = [];
 var keywordVal = [];
+var source   = document.getElementById('entry-template').innerHTML;
+var template = Handlebars.compile(source);
+console.log(template);
 
 function PhotoGallery(image_url, title, description,keyword,horns){
   this.image_url = image_url;
@@ -13,32 +16,27 @@ function PhotoGallery(image_url, title, description,keyword,horns){
 
 function page1(){
   allPhotoGallery = [];
-  $('section').empty();
+  $('#datajson').empty();
   $('select').empty();
   keywordVal = [];
+
   $.get('data/page-1.json', data =>{
-    data.forEach(element => (
-      new PhotoGallery(element.image_url, element.title, element.description, element.keyword, element.horns)));
-
-    let section = $('#photo-template');
+    data.forEach((element, index )=> {
+      new PhotoGallery(element.image_url, element.title, element.description, element.keyword, element.horns);
+      $('#datajson').append(template(allPhotoGallery[index]));
+    });
     let select = $('select');
-
     for(let i=0; i<allPhotoGallery.length; i++){
       if(!keywordVal.includes(allPhotoGallery[i].keyword)){
         keywordVal.push(allPhotoGallery[i].keyword);
         select.append(`<option>${allPhotoGallery[i].keyword}</option>`);
       }
     }
-
-    for(let i=0; i<allPhotoGallery.length; i++){
-      section.append(`<img src="${allPhotoGallery[i].image_url}" alt = "${allPhotoGallery[i].keyword}" class= "animal${i}">`);
-    }
-
     $('select').on('change', function(){
-      $('section').empty();
+      $('#datajson').empty();
       for(let i=0; i<allPhotoGallery.length; i++){
         if(allPhotoGallery[i].keyword === $(this).val()){
-          section.append(`<img src="${allPhotoGallery[i].image_url}" alt = "${allPhotoGallery[i].keyword}" class= "animal${i}">`);
+          $('#datajson').append(template(allPhotoGallery[i]));
         }
       }
     });
@@ -47,13 +45,15 @@ function page1(){
 
 function page2(){
   allPhotoGallery = [];
-  $('section').empty();
+  $('#datajson').empty();
   $('select').empty();
   keywordVal = [];
+
   $.get('data/page-2.json', data =>{
-    data.forEach(element => (
-      new PhotoGallery(element.image_url, element.title, element.description, element.keyword, element.horns)));
-    let section = $('#photo-template');
+    data.forEach((element, index )=> {
+      new PhotoGallery(element.image_url, element.title, element.description, element.keyword, element.horns);
+      $('#datajson').append(template(allPhotoGallery[index]));
+    });
     let select = $('select');
     for(let i=0; i<allPhotoGallery.length; i++){
       if(!keywordVal.includes(allPhotoGallery[i].keyword)){
@@ -61,23 +61,18 @@ function page2(){
         select.append(`<option>${allPhotoGallery[i].keyword}</option>`);
       }
     }
-    for(let i=0; i<allPhotoGallery.length; i++){
-      section.append(`<img src="${allPhotoGallery[i].image_url}" alt = "${allPhotoGallery[i].keyword}" class= "animal${i}">`);
-    }
     $('select').on('change', function(){
-      $('section').empty();
+      $('#datajson').empty();
       for(let i=0; i<allPhotoGallery.length; i++){
         if(allPhotoGallery[i].keyword === $(this).val()){
-          section.append(`<img src="${allPhotoGallery[i].image_url}" alt = "${allPhotoGallery[i].keyword}" class= "animal${i}">`);
+          $('#datajson').append(template(allPhotoGallery[i]));
         }
       }
-      console.log($(this).val());
     });
   });
 }
 
 page1();
-
 $('#page1').on('click', page1);
 
 $('#page2').on('click', page2);
