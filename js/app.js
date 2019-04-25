@@ -19,7 +19,7 @@ function page1(){
   $('#datajson').empty();
   $('select').empty();
   keywordVal = [];
-
+  
   $.get('data/page-1.json', data =>{
     data.forEach((element, index )=> {
       new PhotoGallery(element.image_url, element.title, element.description, element.keyword, element.horns);
